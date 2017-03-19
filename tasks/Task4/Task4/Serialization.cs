@@ -16,9 +16,8 @@ namespace Task4
             var settings = new JsonSerializerSettings() { Formatting = Formatting.Indented, TypeNameHandling = TypeNameHandling.Auto };
             Console.WriteLine(JsonConvert.SerializeObject(eaten , settings));
             
-            // store json string to file "eaten.json" on your Desktop
+            // store json string to file "eaten.json" in /bin/debug of project
             var text = JsonConvert.SerializeObject(eaten, settings);
-            // gets current working directory as directory to write file in
             var currentDirecoty = Directory.GetCurrentDirectory(); 
             var filename = Path.Combine(currentDirecoty, "eaten.json");
             File.WriteAllText(filename, text);
