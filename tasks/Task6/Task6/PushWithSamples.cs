@@ -21,7 +21,7 @@ namespace Task6
             {
                 var i = 1;
                 var sweet = new Sweets("TestSweet", "whenever", 144, i);
-                while (true)
+                while (!(Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.Escape))
                 {
                     Thread.Sleep(250);
                     source.OnNext(sweet);
