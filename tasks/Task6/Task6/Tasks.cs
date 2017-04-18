@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using static System.Console;
+using System.Windows;
 
 namespace Task6
 {
@@ -38,11 +39,48 @@ namespace Task6
             foreach (var task in tasks.ToArray())
             {
                 tasks2.Add(
-                    task.ContinueWith(t => { WriteLine($"result is {t.Result.SweetCalories()}"); return t.Result; })
+                    task.ContinueWith(t => { WriteLine($"recalculated calories: {t.Result.SweetCalories()}"); return t.Result; })
                 );
             }
 
+            var cts = new CancellationTokenSource();
+            var FibonacciTask = ComputeFibonacci(cts.Token);
+
             ReadLine();
+            cts.Cancel();
+            WriteLine("cancled Fibonacci calculation");
+
+            ReadLine();
+
+
+        }
+
+        public static Task<bool> IsFibonacci(CancellationToken ct, int number)
+        {
+            return Task.Run(() =>
+            {
+                // fibonacci function copied from Heinz Siahaan from http://stackoverflow.com/questions/31939152/find-if-a-number-is-within-fibonacci-range
+
+                double fi = (1 + Math.Sqrt(5)) / 2.0; 
+                int n = (int)Math.Floor(Math.Log(number * Math.Sqrt(5) + 0.5, fi)); 
+
+                int actualFibonacciNumber = (int)Math.Floor(Math.Pow(fi, n) / Math.Sqrt(5) + 0.5); 
+                if (actualFibonacciNumber != number)
+                {
+                    ct.ThrowIfCancellationRequested();
+                    return false;
+                }             
+                return true;
+            }, ct);
+        }
+
+        public static async Task ComputeFibonacci(CancellationToken ct)
+        {
+            for (var i = 1; i < int.MaxValue; i++)
+            {
+                ct.ThrowIfCancellationRequested();
+                if (await IsFibonacci(ct, i)) WriteLine($"{i} is a fibonacci number");
+            }
         }
     }
 }
