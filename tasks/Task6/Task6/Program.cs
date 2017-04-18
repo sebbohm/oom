@@ -10,9 +10,9 @@ namespace Task6
     {
         static void Main(string[] args)
         {
-            //PushWithSamples.Run();
+            PushWithSamples.Run();
 
-            Tasks.Run();
+            //Tasks.Run();
         }
     }
 }

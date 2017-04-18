@@ -15,12 +15,12 @@ namespace Task6
         {
             var source = new Subject<Sweets>();
 
-            source.Sample(TimeSpan.FromSeconds(0.5)).Subscribe(x => Console.WriteLine($"received {x.SweetCalories()}"));
+            source.Sample(TimeSpan.FromMilliseconds(300)).Subscribe(x => Console.WriteLine($"received {x.SweetCalories()}"));
 
             var t = new Thread(() =>
             {
                 var i = 1;
-                var sweet = new Sweets("TestSweet", "whenever", 244, i);
+                var sweet = new Sweets("TestSweet", "whenever", 144, i);
                 while (true)
                 {
                     Thread.Sleep(250);
